@@ -2496,7 +2496,7 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl 
 })
 local Tabs = {
-	Main= Window:AddTab({ Title = "Farming", Icon = "rbxthumb://type=GamePass&id=944258394&w=150&h=150" }),
+	Main= Window:AddTab({ Title = "Farming", Icon = "" }),
 }
 Tabs.Main:AddButton({
         Title = "Teleport Sea 1",
