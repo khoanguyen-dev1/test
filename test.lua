@@ -1863,7 +1863,7 @@ spawn(function()
     end
 end)
 print("esp") 
-local foldername = "Windy Hub"
+local foldername = "Duck Hub"
 local filename = foldername.."/Setting.json"
 function saveSettings()
     local HttpService = game:GetService("HttpService")
@@ -2487,8 +2487,8 @@ end)
 print("stop tween") 
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local Window = Fluent:CreateWindow({
-    Title = "Windy Hub [Remake V2]",
-    SubTitle = " By ZkanixZ#0 [ Windy ] • Hades_x112#0",
+    Title = "Duck hub",
+    SubTitle = " By UwU ( Duck hub ) - khoanguyen0306#0",
     TabWidth = 140,
     Size = UDim2.fromOffset(480, 320),
     Acrylic = false, 
@@ -2496,7 +2496,7 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = Enum.KeyCode.LeftControl 
 })
 local Tabs = {
-	Main= Window:AddTab({ Title = "Farming", Icon = "" }),
+	Main= Window:AddTab({ Title = "Farming", Icon = "rbxthumb://type=GamePass&id=944258394&w=150&h=150" }),
 }
 Tabs.Main:AddButton({
         Title = "Teleport Sea 1",
