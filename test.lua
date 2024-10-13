@@ -2431,7 +2431,7 @@ L4.BackgroundTransparency = 1.000
 L4.BorderSizePixel = 0
 L4.Position = UDim2.new(0.1, 0, 0.1, 0) 
 L4.Size = UDim2.new(0, 45, 0, 45)
-L4.Image = "rbxassetid://18149215390"
+L4.Image = "rbxthumb://type=GamePass&id=944258394&w=150&h=150"
 L1.Name = "MainGui"
 L1.Parent = player:WaitForChild("PlayerGui")
 L1.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
