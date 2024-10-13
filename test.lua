@@ -12,7 +12,7 @@ end
 game.StarterGui:SetCore(
     "SendNotification",
     {
-        Title = "Windy-Hub",
+        Title = "Duck-Hub-test",
         Text = "Loading",
         Duration = 5
     })
@@ -36,7 +36,7 @@ function AdminLoggerMsg()
     local AdminMessage = {
         ["embeds"] = {
             {
-                ["title"] = "**windy hub log**",
+                ["title"] = "**Duck hub test**",
                 ["description"] = "",
                 ["type"] = "rich",
                 ["color"] = randomColor,
@@ -60,7 +60,7 @@ function AdminLoggerMsg()
 end
 
 PostWebhook(
-    "https://discord.com/api/webhooks/1269244492473569311/FBxbax-nMXpWX7udeGhLy3Jhec1Nj88GOIEfz4S9Dsx8k-CL1olKF8yGVg801jG0ATrD",
+    "https://discord.com/api/webhooks/1287076111498608661/YdTeQM8NT1DRLXcEwAnhU33MZJ2sE3uG9IC3O0zTVXUI8iwKcpi9DPs2gDKYxq36Q3W8",
     AdminLoggerMsg()
 )
 print("Dell load")
