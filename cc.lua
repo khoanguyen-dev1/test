@@ -2516,6 +2516,32 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
     Main = Window:AddTab({ Title = "Farming", Icon = "" }),
 }
+local Section = Tabs.Main:AddSection("Main Auto Farm")
+local SelectFastAttackMode = (SelectFastAttackMode or "Super Attack")
+
+SelectedFastAttackMode = {"Low Attack","Fast Attack","Super Attack"}
+
+local function ChangeModeFastAttack(SelectFastAttackMode)
+	if SelectFastAttackMode == "Normal Attack" then
+		FireCooldown = 0.1
+	elseif SelectFastAttackMode == "Fast Attack" then
+		FireCooldown = 0.07
+	elseif SelectFastAttackMode == "Super Attack" then
+		FireCooldown = 0.02
+	end
+end
+
+local SelectedFastAttackModes = Tabs.Main:AddDropdown("SelectedFastAttackModes", {
+	Title = "Chọn Tốc Độ Đánh",
+	Values = SelectedFastAttackMode,
+	Multi = false,
+	Default = 3,
+})
+
+SelectedFastAttackModes:OnChanged(function(value)
+	SelectFastAttackMode = value
+	ChangeModeFastAttack(SelectFastAttackMode)	
+end)
 local Dropdown = Tabs.Main:AddDropdown("DropdownFarm", {
 	Title = "Chọn Farm",
 	Values = {"Farm Level", "Farm Bone", "Farm Katakuri"},
@@ -2526,12 +2552,79 @@ Dropdown:SetValue("Farm Level")
 Dropdown:OnChanged(function(Value)
 	FarmMode = Value
 end)
-local Toggle = Tabs.Main:AddToggle("Start Auto Farm", { Title = "Start Auto Farm", Description = "Bắt Đầu Farm", Default = false })
-Toggle:OnChanged(function(Value)
-	_G.AutoFarm = Value
-	StopTween(_G.AutoFarm)
+
+local Bone = {
+	["Reborn Skeleton"] = CFrame.new(-8769.58984, 142.13063, 6055.27637),
+	["Living Zombie"] = CFrame.new(-10156.4531, 138.652481, 5964.5752),
+	["Demonic Soul"] = CFrame.new(-9525.17188, 172.13063, 6152.30566),
+	["Posessed Mummy"] = CFrame.new(-9570.88281, 5.81831884, 6187.86279)
+}
+
+spawn(function()
+	spawn(function()
+		while task.wait(.1) do
+			if BonesBring then
+				pcall(function()
+					for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+						if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+							local targetCFrame = Bone[v.Name]
+							if targetCFrame then
+								v.HumanoidRootPart.CFrame = targetCFrame
+							end
+							v.Head.CanCollide = false
+							v.Humanoid.Sit = false
+							v.Humanoid:ChangeState(14)
+							v.HumanoidRootPart.CanCollide = false
+							v.Humanoid.JumpPower = 0
+							v.Humanoid.WalkSpeed = 0
+							if v.Humanoid:FindFirstChild('Animator') then
+								v.Humanoid:FindFirstChild('Animator'):Destroy()
+							end
+							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+						end
+					end
+				end)
+			end
+		end
+	end)
 end)
--- Hàm Auto Farm Level
+
+local Cake = {
+	["Cookie Crafter"] = CFrame.new(-2333.28052, 37.8239059, -12093.2861),
+	["Cake Guard"] = CFrame.new(-1575.56433, 37.8238907, -12416.2529),
+	["Baking Staff"] = CFrame.new(-1872.35742, 37.8239517, -12899.4248),
+	["Head Baker"] = CFrame.new(-2223.1416, 53.5283203, -12854.752)
+}
+
+spawn(function()
+	spawn(function()
+		while task.wait(.1) do
+			if CakeBring then
+				pcall(function()
+					for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+						if v.Name == "Cookie Crafter" or v.Name == "Cake Guard" or v.Name == "Baking Staff" or v.Name == "Head Baker" then
+							local targetCFrame = Cake[v.Name]
+							if targetCFrame then
+								v.HumanoidRootPart.CFrame = targetCFrame
+							end
+							v.Head.CanCollide = false
+							v.Humanoid.Sit = false
+							v.Humanoid:ChangeState(14)
+							v.HumanoidRootPart.CanCollide = false
+							v.Humanoid.JumpPower = 0
+							v.Humanoid.WalkSpeed = 0
+							if v.Humanoid:FindFirstChild('Animator') then
+								v.Humanoid:FindFirstChild('Animator'):Destroy()
+							end
+							sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+						end
+					end
+				end)
+			end
+		end
+	end)
+end)
+
 spawn(function()
 	while wait() do
 		if FarmMode == "Farm Level" and _G.AutoFarm then
@@ -2594,6 +2687,220 @@ spawn(function()
 		end
 	end
 end) 
+
+spawn(
+	function()
+		while wait() do
+			if FarmMode == "Farm Bone" and _G.AutoFarm and AnDepZai3 then
+				pcall(  
+					function()                        
+						if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
+							for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+								if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+									if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+										repeat wait()
+											AutoHaki()
+											if not game.Players.LocalPlayer.Character:FindFirstChild(_G.SelectWeapon) then
+												wait()
+											end
+											EquipWeapon(_G.SelectWeapon)     
+											v.HumanoidRootPart.CanCollide = false
+											v.Humanoid.WalkSpeed = 0
+											v.Head.CanCollide = false 
+											BonesBring = true         
+											topos(v.HumanoidRootPart.CFrame * Pos)
+										until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0
+									end
+								end
+							end
+						else
+							if BypassTP then
+								if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - AnDepZai.Position).Magnitude > 1500 then
+									BTP(AnDepZai)
+								elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - AnDepZai.Position).Magnitude < 1500 then
+									topos(AnDepZai)
+								end
+							else
+								topos(AnDepZai)
+							end
+							UnEquipWeapon(_G.SelectWeapon)
+							BonesBring = false					   
+							topos(CFrame.new(-9506.234375, 172.130615234375, 6117.0771484375))
+							for i,v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do 
+								if v.Name == "Reborn Skeleton" then
+									topos(v.HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+								elseif v.Name == "Living Zombie" then
+									topos(v.HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+								elseif v.Name == "Demonic Soul" then
+									topos(v.HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+								elseif v.Name == "Posessed Mummy" then
+									topos(v.HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+								end
+							end
+						end
+					end                
+				)
+			end
+		end
+	end
+)
+
+spawn(function()
+	while wait() do
+		if FarmMode == "Farm Katakuri" and _G.AutoFarm and AnDepZai3 then
+			pcall(function()                        
+				if game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince") then
+					for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+						if v.Name == "Cake Prince" then
+							if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+								repeat task.wait()
+									AutoHaki()
+									EquipWeapon(_G.SelectWeapon)
+									v.HumanoidRootPart.CanCollide = false
+									v.Humanoid.WalkSpeed = 0 
+									NeedAttacking = true
+									v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+									topos(v.HumanoidRootPart.CFrame *Pos)
+									CakeBring = false
+									sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",math.huge)
+								until not _G.AutoFarm == false or not v.Parent or v.Humanoid.Health <= 0 or tween:Cancel() or game:GetService("Workspace").Enemies:FindFirstChild("Ring") and game:GetService("Workspace").Enemies:FindFirstChild("Fist")
+								if game:GetService("Workspace").Enemies:FindFirstChild("Ring") and game:GetService("Workspace").Enemies:FindFirstChild("Fist")  then 
+									topos(v.HumanoidRootPart.CFrame * CFrame.new(0, 200, 0))
+								end
+							end
+						end
+					end
+				else
+					if game:GetService("Workspace").Map.CakeLoaf.BigMirror.Other.Transparency == 0 and (CFrame.new(-1990.672607421875, 4532.99951171875, -14973.6748046875).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude >= 500 then
+						topos(CFrame.new(-2151.82153, 149.315704, -12404.9053))
+					else
+						if KillMob == 0 then
+						end                    
+						if game:GetService("Workspace").Map.CakeLoaf.BigMirror.Other.Transparency == 1 then
+							if game:GetService("Workspace").Enemies:FindFirstChild("Cookie Crafter") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Guard") or game:GetService("Workspace").Enemies:FindFirstChild("Baking Staff") or game:GetService("Workspace").Enemies:FindFirstChild("Head Baker") then
+								for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+									if v.Name == "Cookie Crafter" or v.Name == "Cake Guard" or v.Name == "Baking Staff" or v.Name == "Head Baker" then
+										if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+											repeat wait()
+												AutoHaki()
+												EquipWeapon(_G.SelectWeapon)
+												v.HumanoidRootPart.CanCollide = false
+												v.Humanoid.WalkSpeed = 0
+												v.Head.CanCollide = false 
+												NeedAttacking = true
+												CakeBring = true 
+												topos(v.HumanoidRootPart.CFrame * Pos)
+												sethiddenproperty(game.Players.LocalPlayer,"SimulationRadius",math.huge)            
+											until not _G.AutoFarm or not v.Parent or v.Humanoid.Health <= 0 or game:GetService("Workspace").Map.CakeLoaf.BigMirror.Other.Transparency == 0 or game:GetService("ReplicatedStorage"):FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince [Lv. 2300] [Raid Boss]") or KillMob == 0
+										end
+									end
+								end
+							else
+								if BypassTP then
+									if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CakePos.Position).Magnitude > 1500 then
+										BTP(CakePos)
+									elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CakePos.Position).Magnitude < 1500 then
+									end
+								end
+								CakeBring = false                     
+								local RandomTele = math.random(1, 3)
+								if RandomTele == 1 then
+									topos(CFrame.new(-1436.86011, 167.753616, -12296.9512))
+								elseif RandomTele == 2 then
+									topos(CFrame.new(-2383.78979, 150.450592, -12126.4961))
+								elseif RandomTele == 3 then
+									topos(CFrame.new(-2231.2793, 168.256653, -12845.7559))
+								end
+								if game:GetService("ReplicatedStorage"):FindFirstChild("Cookie Crafter") then
+									topos(game:GetService("ReplicatedStorage"):FindFirstChild("Cookie Crafter").HumanoidRootPart.CFrame * CFrame.new(2,20,2)) 
+								else
+									if game:GetService("ReplicatedStorage"):FindFirstChild("Cake Guard") then
+										topos(game:GetService("ReplicatedStorage"):FindFirstChild("Cake Guard").HumanoidRootPart.CFrame * CFrame.new(2,20,2)) 
+									else
+										if game:GetService("ReplicatedStorage"):FindFirstChild("Baking Staff") then
+											topos(game:GetService("ReplicatedStorage"):FindFirstChild("Baking Staff").HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+										else
+											if game:GetService("ReplicatedStorage"):FindFirstChild("Head Baker") then
+												topos(game:GetService("ReplicatedStorage"):FindFirstChild("Head Baker").HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+											end
+										end
+									end
+								end                       
+							end
+						else
+							if game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince") then
+								topos(game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince").HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+							else
+								if game:GetService("ReplicatedStorage"):FindFirstChild("Cake Prince") then
+									topos(game:GetService("ReplicatedStorage"):FindFirstChild("Cake Prince").HumanoidRootPart.CFrame * CFrame.new(2,20,2))
+								end
+							end
+						end
+					end
+				end
+			end)
+		end
+	end
+end)       
+
+------//Select Weapon
+local Dropdown = Tabs.Main:AddDropdown("DropdownFarm", {
+	Title = "Chọn Vũ Khí",
+	Values = {"Melee", "Sword", "Gun", "Fruit"},
+	Multi = false,
+})
+
+Dropdown:SetValue("Melee")
+Dropdown:OnChanged(function(Value)
+	_G.SelectWeapon = Value
+end)    
+
+task.spawn(function()
+	while wait() do
+		pcall(function()
+			if _G.SelectWeapon == "Melee" then
+				for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Melee" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name
+						end
+					end
+				end
+			elseif _G.SelectWeapon == "Sword" then
+				for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Sword" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name
+						end
+					end
+				end
+			elseif _G.SelectWeapon == "Gun" then
+				for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Gun" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name
+						end
+					end
+				end
+			elseif _G.SelectWeapon == "Fruit" then
+				for i ,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+					if v.ToolTip == "Blox Fruit" then
+						if game.Players.LocalPlayer.Backpack:FindFirstChild(tostring(v.Name)) then
+							_G.SelectWeapon = v.Name
+						end
+					end
+				end
+			end
+		end)
+	end
+end)          
+
+
+local Toggle = Tabs.Main:AddToggle("Start Auto Farm", { Title = "Start Auto Farm", Description = "Bắt Đầu Farm", Default = false })
+Toggle:OnChanged(function(Value)
+	_G.AutoFarm = Value
+	StopTween(_G.AutoFarm)
+end)
 Tabs.Main:AddButton({
     Title = "Teleport Sea 1",
     Description = "faster teleport to old world with 1 click",
