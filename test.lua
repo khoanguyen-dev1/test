@@ -13,6 +13,7 @@ game.StarterGui:SetCore(
     "SendNotification",
     {
         Title = "Duck-Hub-test",
+        Icon = "rbxthumb://type=GamePass&id=944258394&w=150&h=150",
         Text = "Loading",
         Duration = 5
     })
@@ -2498,9 +2499,10 @@ local Window = Fluent:CreateWindow({
 local Tabs = {
 	Main= Window:AddTab({ Title = "Farming", Icon = "" }),
     Tele= Window:AddTab({ Title = "Teleport", Icon = "" }),
-    Mele= Window:AddTab({ Title = "Mele", Icon = "" })
+    Mele= Window:AddTab({ Title = "Mele", Icon = "" }),
+    Setting= Window:AddTab({ Title = "Setting", Icon = "" }),
 }
-Tabs.Tele:AddButton({
+Tabs.Setting:AddButton({
     Title = "Server Support script",
     Description = "Thích Thì vô",
     Callback = function()            
@@ -2509,6 +2511,7 @@ Tabs.Tele:AddButton({
             "SendNotification",
             {
                 Title = "Duck-Hub-test",
+		Icon = "rbxthumb://type=GamePass&id=944258394&w=150&h=150",
                 Text = "Đã copy xong!",
                 Duration = 5
             }
@@ -3315,6 +3318,7 @@ Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default
     "SendNotification",
     {
         Title = "Duck-Hub-test",
+	Icon = "rbxthumb://type=GamePass&id=944258394&w=150&h=150",
         Text = "Success!",
         Duration = 5
     }
