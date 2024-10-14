@@ -3182,3 +3182,807 @@ AutoFarmButton.MouseButton1Click:Connect(function()
 end)
 
 print("Script đã được khởi động!")
+Tabs.Main:AddButton({
+    Title = "Teleport Sea 1",
+    Description = "faster teleport to old world with 1 click",
+    Callback = function()            
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
+    end
+})
+Tabs.Main:AddButton({
+    Title = "Teleport Sea 2",
+    Description = "faster teleport to new world with 1 click",
+    Callback = function()            
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
+    end
+})
+Tabs.Main:AddButton({
+    Title = "Teleport Sea 3",
+    Description = "faster teleport to third world with 1 click",
+    Callback = function()            
+game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
+    end
+})
+
+local melees = {
+["Select"] = function() end,
+["Black Leg"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBlackLeg")
+end,
+["Electro"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectro")
+end,
+["Fishman Karate"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyFishmanKarate")
+end,
+["Dragon Claw"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "1")
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BlackbeardReward", "DragonClaw", "2")
+end,
+["Superhuman"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySuperhuman")
+end,
+["Death Step"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDeathStep")
+end,
+["Sharkman Karate"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySharkmanKarate")
+end,
+["Electric Claw"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyElectricClaw")
+end,
+["Dragon Talon"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyDragonTalon")
+end,
+["Godhuman"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyGodhuman")
+end,
+["Sanguine Art"] = function()
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuySanguineArt")
+end
+}
+
+local Chon_Melee = Tabs.Main:AddDropdown("Chon_Melee", {
+Title = "Buy Fighting Style",
+Description = "",
+Values = {"Select", "Black Leg", "Electro", "Fishman Karate", "Dragon Claw", "Superhuman", "Death Step", "Sharkman Karate", "Electric Claw", "Dragon Talon", "Godhuman" },
+Multi = false,
+Default = 1,
+})
+Chon_Melee:SetValue("Select")
+Chon_Melee:OnChanged(function(Value)
+getgenv().FightingStyle = Value
+if melees[Value] then
+    melees[Value]()
+end
+end)
+
+local Dropdown = Tabs.Main:AddDropdown("Dropdown", {
+Title = "Weapon",
+Values = {"Melee", "Sword"},
+Multi = false,
+Default = 1,
+})
+
+Dropdown:SetValue("Melee")
+
+Dropdown:OnChanged(function(Value)
+_G.SelectWeapon = Value
+end)
+
+task.spawn(function()
+while wait() do
+    pcall(function()
+        local player = game.Players.LocalPlayer
+        local backpack = player.Backpack
+
+        if _G.SelectWeapon == "Melee" then
+            for i, v in pairs(backpack:GetChildren()) do
+                if v.ToolTip == "Melee" then
+                    if backpack:FindFirstChild(tostring(v.Name)) then
+                        _G.SelectWeapon = v.Name
+                    end
+                end
+            end
+        elseif _G.SelectWeapon == "Sword" then
+            for i, v in pairs(backpack:GetChildren()) do
+                if v.ToolTip == "Sword" then
+                    if backpack:FindFirstChild(tostring(v.Name)) then
+                        _G.SelectWeapon = v.Name
+                    end
+                end
+            end
+        end
+    end)
+end
+end)
+
+local DropdownTweenSpeed = Tabs.Main:AddDropdown("DropdownTweenSpeed", {
+Title = "Speed Tween",
+Values = {"300", "340", "500", "700"},
+Multi = false,
+Default = 300,
+})
+DropdownTweenSpeed:SetValue("TweenSpeed")
+DropdownTweenSpeed:OnChanged(function(Value)
+getgenv().TweenSpeed = Value
+saveSettings()
+end)
+
+local ListB = {"No Quest", "Quest"}
+BoneFMode = "Quest"
+
+local methodxuong = Tabs.Main:AddDropdown("DropdownTweenSpeed", {
+Title = "Method Farm Bone",
+Values = ListB,
+Multi = false,
+Default = BoneFMode,
+})
+methodxuong:SetValue("Quest")
+methodxuong:OnChanged(function(Value)
+BoneFMode = Value
+saveSettings()
+end)
+
+local farmbun = Tabs.Main:AddToggle("farmbun", {
+Title = "Auto Farm Bone",
+Description = "sea 3 func, bypass tp to island and farm",
+Default = _G.Auto_Bone })
+farmbun:OnChanged(function(value)
+_G.Auto_Bone = value
+saveSettings()
+end)
+   local BonePos = CFrame.new(-9506.234375, 172.130615234375, 6117.0771484375)
+    spawn(function()
+        while wait() do 
+            if BoneFMode == "No Quest" and _G.Auto_Bone and World3 then
+                pcall(function()
+                    if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
+                        StartMagnet = false
+                        for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                            if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+                               if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                   repeat task.wait()
+                                        AutoHaki()
+                                        EquipWeapon(_G.SelectWeapon)
+                                        v.HumanoidRootPart.CanCollide = false
+                                        v.Humanoid.WalkSpeed = 0
+                                        v.Head.CanCollide = false 
+                                        StartMagnet = true
+                                        PosMon = v.HumanoidRootPart.CFrame
+                                        MonFarm = v.Name
+                                        topos(v.HumanoidRootPart.CFrame * Pos)
+                                        NeedAttacking = true
+                                    until not _G.Auto_Bone or not v.Parent or v.Humanoid.Health <= 0
+                                    StartMagnet = false
+                                end
+                            end
+                        end
+                    else
+                    if BypassTP then
+                    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - BonePos.Position).Magnitude > 1500 then
+                    BTP(BonePos)
+                    elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - BonePos.Position).Magnitude < 1500 then
+                    topos(BonePos)
+                    end
+                    else
+                    topos(BonePos)
+                    end
+                        UnEquipWeapon(_G.SelectWeapon)
+                        topos(CFrame.new(-9506.234375, 172.130615234375, 6117.0771484375))
+                    end
+                end)
+            end
+        end
+    end)    
+    
+    local BoneQuestPos = CFrame.new(-9516.99316, 172.017181, 6078.46533, 0, 0, -1, 0, 1, 0, 1, 0, 0)
+
+    spawn(function()
+        while wait() do
+            if  BoneFMode == "Quest" and _G.Auto_Bone and World3  then
+                pcall(function()
+                    local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+                    if not string.find(QuestTitle, "Demonic Soul") then
+                        StartMagnet = false
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+                    end
+                    if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
+                        StartMagnet = false
+                        if BypassTP then
+                        if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - BoneQuestPos.Position).Magnitude > 1500 then
+                        BTP(BoneQuestPos)
+                        elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - BoneQuestPos.Position).Magnitude < 1500 then
+                        topos(BoneQuestPos)
+                        end
+                    else
+                        topos(BoneQuestPos)
+                    end
+                    if (BoneQuestPos.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 3 then    
+                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest","HauntedQuest2",1)
+                        end
+                    elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+                        if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
+                            for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                                if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                                    if v.Name == "Reborn Skeleton" or v.Name == "Living Zombie" or v.Name == "Demonic Soul" or v.Name == "Posessed Mummy" then
+                                        if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, "Demonic Soul") then
+                                            repeat task.wait()
+                                                EquipWeapon(_G.SelectWeapon)
+                                                AutoHaki()                                            
+                                                PosMon = v.HumanoidRootPart.CFrame
+                                                MonFarm = v.Name
+                                                topos(v.HumanoidRootPart.CFrame * Pos)
+                                                v.HumanoidRootPart.CanCollide = false
+                                                v.Humanoid.WalkSpeed = 0
+                                                v.Head.CanCollide = false
+                                                StartMagnet = true
+                                                NeedAttacking = true
+                                            until not _G.Auto_Bone or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
+                                            StartMagnet = false
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    end
+                end)
+            end
+        end
+    end)
+    
+Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Random Bone", Default = _G.Auto_Random_Bone })
+Toggle:OnChanged(function(Value)
+    _G.Auto_Random_Bone = Value
+    saveSettings()
+    end)
+spawn(function()
+        while wait(.1) do
+            if _G.Auto_Random_Bone then    
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Bones","Buy",1,1)
+            end
+        end
+end)
+
+local Dropdown =
+Tabs.Main:AddDropdown(
+"Dropdown",
+{
+    Title = "Bring Mob",
+    Values = {"Low", "Normal", "Super Bring"},
+    Multi = false,
+    Default = _G.BringMode
+}
+)
+Dropdown:SetValue("Normal")
+Dropdown:OnChanged(
+function(Value)
+    _G.BringMode = Value
+    saveSettings()
+end
+)
+
+spawn(
+function()
+    while wait(.1) do
+        if _G.BringMode then
+            pcall(
+                function()
+                    if _G.BringMode == "Low" then
+                        _G.BringMode = 200
+                    elseif _G.BringMode == "Normal" then
+                        _G.BringMode = 300
+                    elseif _G.BringMode == "Super Bring" then
+                        _G.BringMode = 350
+                    end
+                end
+            )
+        end
+    end
+end
+)
+
+Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Bring Mob", Default = true})
+Toggle:OnChanged(
+function(Mag)
+    _G.BringMonster = Mag
+    saveSettings()
+end
+)
+print("ok")
+task.spawn(
+function()
+    while task.wait() do
+        if _G.BringMonster then
+            pcall(
+                function()
+                    for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                        if
+                            not string.find(v.Name, "Boss") and v.Name == MonFarm and
+                                (v.HumanoidRootPart.Position -
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 300
+                         then
+                            if InMyNetWork(v.HumanoidRootPart) then
+                                if InMyNetWork(v.HumanoidRootPart) then
+                                    v.HumanoidRootPart.CFrame = PosMon
+                                    v.HumanoidRootPart.CanCollide = false
+                                    v.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+                                    if v.Humanoid:FindFirstChild("Animator") then
+                                        v.Humanoid.Animator:Destroy()
+                                    end
+                                    task.wait(0.1)
+                                end
+                            end
+                        end
+                    end
+                end
+            )
+        end
+    end
+end
+)
+
+spawn(
+function()
+    while task.wait() do
+        spawn(
+            function()
+                if _G.BringMonster then
+                    CheckQuest()
+                    for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                        if
+                            _G.AutoFarm and StartMagnet and v.Name == Mon and
+                                (Mon == "Factory Staff" or Mon == "Monkey" or Mon == "Dragon Crew Warrior" or
+                                    Mon == "Dragon Crew Archer") and
+                                v:FindFirstChild("Humanoid") and
+                                v:FindFirstChild("HumanoidRootPart") and
+                                v.Humanoid.Health > 0 and
+                                (v.HumanoidRootPart.Position -
+                                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <=
+                                    220
+                         then
+                            v.HumanoidRootPart.Size = Vector3.new(70, 70, 70)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
+                            task.wait(0.1)
+                        elseif
+                            _G.AutoFarm and StartMagnet and v.Name == Mon and v:FindFirstChild("Humanoid") and
+                                v:FindFirstChild("HumanoidRootPart") and
+                                v.Humanoid.Health > 0 and
+                                (v.HumanoidRootPart.Position -
+                                    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <=
+                                    _G.BringMode
+                         then
+                            v.HumanoidRootPart.Size = Vector3.new(70, 70, 70)
+                            v.HumanoidRootPart.CFrame = PosMon
+                            v.Humanoid:ChangeState(14)
+                            v.HumanoidRootPart.CanCollide = false
+                            v.Head.CanCollide = false
+                            if v.Humanoid:FindFirstChild("Animator") then
+                                v.Humanoid.Animator:Destroy()
+                            end
+                            sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
+                            task.wait(0.1)
+                        end
+                    end
+                end
+            end
+        )
+    end
+end
+)
+
+spawn(
+function()
+    while wait() do
+        pcall(
+            function()
+                for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                    if _G.BringMob and bringmob then
+                        if v.Name == MonFarm and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+                            if v.Name == "Factory Staff" then
+                                if (v.HumanoidRootPart.Position - FarmPos.Position).Magnitude <= 500 then
+                                    v.Head.CanCollide = false
+                                    v.HumanoidRootPart.CanCollide = false
+                                    v.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+                                    v.HumanoidRootPart.CFrame = FarmPos
+                                    if v.Humanoid:FindFirstChild("Animator") then
+                                        v.Humanoid.Animator:Destroy()
+                                    end
+                                    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                                    task.wait(0.1)
+                                end
+                            elseif v.Name == MonFarm then
+                                if (v.HumanoidRootPart.Position - FarmPos.Position).Magnitude <= 450 then
+                                    v.Head.CanCollide = false
+                                    v.HumanoidRootPart.CanCollide = false
+                                    v.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+                                    v.HumanoidRootPart.CFrame = FarmPos
+                                    if v.Humanoid:FindFirstChild("Animator") then
+                                        v.Humanoid.Animator:Destroy()
+                                    end
+                                    sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                                end
+                            end
+                        end
+                        if _G.AutoDoughtBoss and MagnetDought then
+                            if
+                                (v.Name == "Cookie Crafter" or v.Name == "Cake Guard" or v.Name == "Baking Staff" or
+                                    v.Name == "Head Baker") and
+                                    (v.HumanoidRootPart.Position - PosMonDoughtOpenDoor.Position).Magnitude <=
+                                        _G.BringMode and
+                                    v:FindFirstChild("Humanoid") and
+                                    v:FindFirstChild("HumanoidRootPart") and
+                                    v.Humanoid.Health > 0
+                             then
+                                v.Head.CanCollide = false
+                                v.HumanoidRootPart.CanCollide = false
+                                v.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+                                v.HumanoidRootPart.CFrame = FarmPos
+                                if v.Humanoid:FindFirstChild("Animator") then
+                                    v.Humanoid.Animator:Destroy()
+                                end
+                                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+                            end
+                        end
+                    end
+                end
+            end
+        )
+    end
+end
+)
+
+task.spawn(
+function()
+    while true do
+        wait()
+        if setscriptable then
+            setscriptable(game.Players.LocalPlayer, "SimulationRadius", true)
+        end
+        if sethiddenproperty then
+            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+        end
+    end
+end
+)
+
+function InMyNetWork(object)
+if isnetworkowner then
+    return isnetworkowner(object)
+else
+    if (object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= _G.BringMode then
+        return true
+    end
+    return false
+end
+end
+
+task.spawn(
+function()
+    while task.wait() do
+        if MakoriGayMag and _G.BringMonster then
+            for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                if
+                    not string.find(v.Name, "Boss") and
+                        (v.HumanoidRootPart.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <=
+                            450
+                 then
+                    if InMyNetWork(v.HumanoidRootPart) then
+                        v.HumanoidRootPart.CFrame = PosGay
+                        v.Humanoid.JumpPower = 0
+                        v.Humanoid.WalkSpeed = 0
+                        v.HumanoidRootPart.Size = Vector3.new(70, 70, 70)
+                        v.HumanoidRootPart.Transparency = 1
+                        v.HumanoidRootPart.CanCollide = false
+                        v.Head.CanCollide = false
+                        if v.Humanoid:FindFirstChild("Animator") then
+                            v.Humanoid.Animator:Destroy()
+                        end
+                        v.Humanoid:ChangeState(11)
+                        v.Humanoid:ChangeState(14)
+                        task.wait(0.1)
+                    end
+                end
+            end
+        end
+    end
+end
+)
+
+function BringMob()
+if not BringMobChoosen then
+    repeat
+        task.wait()
+    until BringMobChoosen
+end
+sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", math.huge)
+if LockCFrame then
+    for r, v in pairs(game.Workspace.Enemies:GetChildren()) do
+        if
+            (LockCFrame.Position - v.HumanoidRootPart.Position).Magnitude < 350 and
+                (LockCFrame.Position - v.HumanoidRootPart.Position).Magnitude > 3 and
+                chodonandngu(v.HumanoidRootPart.Position)
+         then
+            v.HumanoidRootPart.CFrame = LockCFrame
+            SizePart(v)
+            for al, ax in pairs(v:GetDescendants()) do
+                if ax:IsA("BasePart") or ax:IsA("Part") then
+                    ax.CanCollide = false
+                end
+            end
+            task.wait(0.1)
+        end
+    end
+end
+if BringMobChoosen then
+    for r, v in pairs(game.Workspace.Enemies:GetChildren()) do
+        if
+            (BringMobChoosen.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude < 350 and
+                (BringMobChoosen.HumanoidRootPart.Position - v.HumanoidRootPart.Position).Magnitude > 3 and
+                GetNearestPlayer(v.HumanoidRootPart.Position)
+         then
+            v.HumanoidRootPart.CFrame = BringMobChoosen.HumanoidRootPart.CFrame
+            SizePart(v)
+            for al, ax in pairs(v:GetDescendants()) do
+                if ax:IsA("BasePart") or ax:IsA("Part") then
+                    ax.CanCollide = false
+                end
+            end
+            task.wait(0.1)
+        end
+    end
+end
+end
+
+function tvk1308deptraiso1()
+local c = function1()
+local ao = game.workspace.Enemies:GetChildren()
+if #ao > 1 then
+    for ap = 1, #ao do
+        for k, v in pairs(game.workspace.Enemies:GetChildren()) do
+            if function0(v) and (v.HumanoidRootPart.Position - c.Position).Magnitude < 350 then
+                v.HumanoidRootPart.CFrame = c
+                v.Humanoid:ChangeState(11)
+                v.HumanoidRootPart.CanCollide = false
+                v.HumanoidRootPart.Size = Vector3.new(1, 1, 1)
+                v.HumanoidRootPart.Transparency = 1
+                for al, f in pairs(v:GetChildren()) do
+                    if v:IsA("BasePart") then
+                        v.Velocity = Vector3.new(0, 0, 0)
+                        v.CanCollide = 0
+                        v.Anchored = true
+                    end
+                end
+                if v:FindFirstChild("Humanoid") then
+                    v.Humanoid.WalkSpeed = 0
+                    v.Humanoid.JumpPower = 0
+                else
+                    return
+                end
+                if v.Humanoid:FindFirstChild("Animator") then
+                    v.Humanoid.Animator:Destroy()
+                end
+                v.Humanoid:ChangeState(11)
+                task.wait(0.1)
+            end
+        end
+    end
+end
+end
+
+local az = {}
+for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].EnemySpawns:GetChildren()) do
+if not az[v.Name] or az[v.Name] == nil then
+    az[v.Name] = {v.CFrame}
+elseif az[v.Name] then
+    table.insert(az[v.Name], v.CFrame)
+end
+end
+function CheckMobInDistance(aA)
+idot = {["Workspace"] = false, ["ReplicatedStorage"] = false, ["NilInstace"] = false}
+for r, v in pairs(game.Workspace.Enemies:GetChildren()) do
+    if table.find(aA, v.Name) then
+        idot["Workspace"] = true
+    end
+end
+for r, v in pairs(game.ReplicatedStorage:GetChildren()) do
+    if table.find(aA, v.Name) then
+        idot["ReplicatedStorage"] = true
+    end
+end
+allnilinstance = getnilinstances()
+for r, v in pairs(allnilinstance) do
+    if table.find(aA, v.Name) then
+        idot["NilInstace"] = true
+    end
+end
+return idot
+end
+function deobiettengi(aB, aC)
+for r, v in pairs(aB) do
+    for O, P in pairs(aC) do
+        if string.find(v, O) then
+            return true
+        end
+    end
+end
+return false
+end
+function deobiettengi2(aD, aC)
+for r, v in pairs(aC) do
+    if string.find(r, aD) then
+        return true
+    end
+end
+end
+function getLargestNumber(aE)
+s = 0
+for r, v in pairs(aE) do
+    if type(r) == "number" and r > s then
+        s = r
+    end
+end
+return s
+end
+function removeNumber(aD)
+if type(aD) ~= "string" then
+    return ""
+end
+str2 = aD:split(" ")
+str3 = ""
+str5 = getLargestNumber(str2)
+for r, v in pairs(str2) do
+    if r < str5 then
+        if r == 0 then
+            str3 = v
+        else
+            str3 = str3 .. " " .. v
+        end
+    end
+end
+return str3
+end
+task.spawn(
+function()
+    while task.wait() do
+        if bringmob then
+            pcall(
+                function()
+                    BringMob()
+                end
+            )
+        end
+    end
+end
+)
+function InMyNetWork(object)
+if isnetworkowner then
+    return isnetworkowner(object)
+else
+    if (object.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= _G.BringMode then
+        return true
+    end
+    return false
+end
+end
+task.spawn(
+function()
+    while task.wait() do
+        pcall(
+            function()
+                if _G.AutoFarmNearest and AutoFarmNearestMagnet or SelectMag and _G.BringMonster then
+                    for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+                        if
+                            not string.find(v.Name, "Boss") and
+                                (v.HumanoidRootPart.Position -
+                                    game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <=
+                                    _G.BringMode
+                         then
+                            if InMyNetWork(v.HumanoidRootPart) then
+                                v.HumanoidRootPart.CFrame = PosMon
+                                v.Humanoid.JumpPower = 0
+                                v.Humanoid.WalkSpeed = 0
+                                v.HumanoidRootPart.Size = Vector3.new(70, 70, 70)
+                                v.HumanoidRootPart.Transparency = 1
+                                v.HumanoidRootPart.CanCollide = false
+                                v.Head.CanCollide = false
+                                if v.Humanoid:FindFirstChild("Animator") then
+                                    v.Humanoid.Animator:Destroy()
+                                end
+                                v.Humanoid:ChangeState(11)
+                                v.Humanoid:ChangeState(14)
+                            end
+                        end
+                    end
+                end
+            end
+        )
+    end
+end
+)
+
+Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Fast Attack V2", Description = "Better than old attack recommended", Default = true })
+Toggle:OnChanged(function(Value)
+Fast_Attack = Value
+saveSettings()
+end) 
+
+
+local SelectFastAttackMode = (SelectFastAttackMode or "Fast Super Fast Attack")
+SelectedFastAttackMode = {"Normal Attack","Fast Attack","Super Fast Attack"}
+local function ChangeModeFastAttack(SelectFastAttackMode)
+if SelectFastAttackMode == "Normal Attack" then
+    FireCooldown = 0.1
+elseif SelectFastAttackMode == "Fast Attack" then
+    FireCooldown = 0.07
+elseif SelectFastAttackMode == "Super Fast Attack" then
+    FireCooldown = 0
+end
+end
+
+
+
+local SelectedFastAttackModes = Tabs.Main:AddDropdown("SelectedFastAttackModes", {
+Title = "Fast Attack Mode",
+Values = SelectedFastAttackMode,
+Multi = false,
+Default = SelectFastAttackMode,
+})
+
+
+
+SelectedFastAttackModes:OnChanged(function(value)
+SelectFastAttackMode = value
+ChangeModeFastAttack(SelectFastAttackMode)
+end)
+
+local lvParagraph
+lvParagraph = Tabs.Main:AddParagraph({
+Title = "Your Status",
+Content = ""
+})
+spawn(function()
+while wait() do
+    pcall(function()
+        local statusText = string.format("Level: %d\nBeli: %d\nFragments: %d\nRace: %s",
+            game:GetService("Players").LocalPlayer.Data.Level.Value,
+            game:GetService("Players").LocalPlayer.Data.Beli.Value,
+            game:GetService("Players").LocalPlayer.Data.Fragments.Value,
+            game:GetService("Players").LocalPlayer.Data.Race.Value
+        )
+        lvParagraph:SetDesc(statusText)
+    end)
+end
+end)
+
+Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
+Toggle:OnChanged(function(Value)
+    RemoveNotify = Value
+    saveSettings()
+end)
+
+spawn(function()
+    while wait() do
+        if RemoveNotify then
+            game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = false
+        else
+            game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = true
+        end
+    end
+end)
+game.StarterGui:SetCore(
+"SendNotification",
+{
+    Title = "Duck-Hub-test",
+    Text = "Success!",
+    Duration = 5
+}
+)
