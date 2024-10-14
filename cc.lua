@@ -2515,39 +2515,85 @@ local Window = Fluent:CreateWindow({
 
 local Tabs = {
     Main = Window:AddTab({ Title = "Farming", Icon = "" }),
-    AutoFarmLevel = Window:AddTab({ Title = "Auto Farm Level", Icon = "" })
 }
+local Dropdown = Tabs.Main:AddDropdown("DropdownFarm", {
+	Title = "Chọn Farm",
+	Values = {"Farm Level", "Farm Bone", "Farm Katakuri"},
+	Multi = false,
+})
 
--- Hàm Auto Farm Level
-local function AutoFarmLevel()
-    while _G.AutoFarm do
-        CheckQuest()
-        wait(5) -- Thời gian chờ giữa các lần kiểm tra nhiệm vụ
-    end
-end
-
--- Tạo nút bật/tắt Auto Farm Level
-local AutoFarmButton = Instance.new("TextButton")
-AutoFarmButton.Name = "AutoFarmButton"
-AutoFarmButton.Parent = Tabs.AutoFarmLevel
-AutoFarmButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
-AutoFarmButton.Size = UDim2.new(0, 200, 0, 50)
-AutoFarmButton.Position = UDim2.new(0.5, -100, 0.5, -25)
-AutoFarmButton.Text = "Bật Auto Farm Level"
-AutoFarmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-
--- Kết nối sự kiện cho nút
-AutoFarmButton.MouseButton1Click:Connect(function()
-    _G.AutoFarm = not _G.AutoFarm
-    if _G.AutoFarm then
-        AutoFarmButton.Text = "Tắt Auto Farm Level"
-        AutoFarmLevel() -- Bắt đầu farm
-    else
-        AutoFarmButton.Text = "Bật Auto Farm Level"
-    end
+Dropdown:SetValue("Farm Level")
+Dropdown:OnChanged(function(Value)
+	FarmMode = Value
 end)
+local Toggle = Tabs.Main:AddToggle("Start Auto Farm", { Title = "Start Auto Farm", Description = "Bắt Đầu Farm", Default = false })
+Toggle:OnChanged(function(Value)
+	_G.AutoFarm = Value
+	StopTween(_G.AutoFarm)
+end)
+-- Hàm Auto Farm Level
+spawn(function()
+	while wait() do
+		if FarmMode == "Farm Level" and _G.AutoFarm then
+			pcall(function()
+				local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text
+				if not string.find(QuestTitle, NameMon) then
+					StartMagnet = false
+					game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+				end
+				if game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false then
 
-print("Script đã được khởi động!")
+					StartMagnet = false
+					CheckQuest()
+					if BypassTP then
+						if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude > 1500 then
+							BTP(CFrameQuest * CFrame.new(0,20,5))
+						elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude < 1500 then
+							topos(CFrameQuest)
+						end
+					else
+						topos(CFrameQuest)
+					end
+					if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - CFrameQuest.Position).Magnitude <= 5 then
+						game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest",NameQuest,LevelQuest)
+					end
+				elseif game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == true then
+					CheckQuest()
+					if game:GetService("Workspace").Enemies:FindFirstChild(Mon) then
+						for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+							if v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+								if v.Name == Mon then
+									if string.find(game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text, NameMon) then
+										repeat wait()
+											EquipWeapon(_G.SelectWeapon)
+											AutoHaki()                                                 
+											PosMon = v.HumanoidRootPart.CFrame
+											topos(v.HumanoidRootPart.CFrame * Pos)
+											v.HumanoidRootPart.CanCollide = false
+											v.Humanoid.WalkSpeed = 0
+											v.Head.CanCollide = false
+											StartMagnet = true
+
+										until not _G.AutoFarm or v.Humanoid.Health <= 0 or not v.Parent or game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible == false
+									else
+										StartMagnet = false
+										game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")
+									end
+								end
+							end
+						end
+					else
+						topos(CFrameMon)
+						StartMagnet = false
+						if game:GetService("ReplicatedStorage"):FindFirstChild(Mon) then
+							topos(game:GetService("ReplicatedStorage"):FindFirstChild(Mon).HumanoidRootPart.CFrame * CFrame.new(15,10,2))
+						end
+					end
+				end
+			end)
+		end
+	end
+end) 
 Tabs.Main:AddButton({
     Title = "Teleport Sea 1",
     Description = "faster teleport to old world with 1 click",
