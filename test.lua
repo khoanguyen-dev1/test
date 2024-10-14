@@ -1,4 +1,4 @@
--- alo
+-- Duck Hub
 repeat
     wait()
 until game:IsLoaded()
@@ -2497,22 +2497,39 @@ local Window = Fluent:CreateWindow({
 })
 local Tabs = {
 	Main= Window:AddTab({ Title = "Farming", Icon = "" }),
+    Tele= Window:AddTab({ Title = "Teleport", Icon = "" }),
+    Mele= Window:AddTab({ Title = "Mele", Icon = "" })
 }
-Tabs.Main:AddButton({
+Tabs.Tele:AddButton({
+    Title = "Server Support script",
+    Description = "Thích Thì vô",
+    Callback = function()            
+        setclipboard("https://discord.gg/RsV5ardD") -- Sao chép liên kết Discord
+        game:GetService("StarterGui"):SetCore(
+            "SendNotification",
+            {
+                Title = "Duck-Hub-test",
+                Text = "Đã copy xong!",
+                Duration = 5
+            }
+        ) -- Hiển thị thông báo
+    end
+})
+Tabs.Tele:AddButton({
         Title = "Teleport Sea 1",
         Description = "faster teleport to old world with 1 click",
         Callback = function()            
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelMain")
         end
     })
-    Tabs.Main:AddButton({
+    Tabs.Tele:AddButton({
         Title = "Teleport Sea 2",
         Description = "faster teleport to new world with 1 click",
         Callback = function()            
 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa")
         end
     })
-    Tabs.Main:AddButton({
+    Tabs.Tele:AddButton({
         Title = "Teleport Sea 3",
         Description = "faster teleport to third world with 1 click",
         Callback = function()            
@@ -2559,7 +2576,7 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
     end
 }
 
-local Chon_Melee = Tabs.Main:AddDropdown("Chon_Melee", {
+local Chon_Melee = Tabs.Mele:AddDropdown("Chon_Melee", {
     Title = "Buy Fighting Style",
     Description = "",
     Values = {"Select", "Black Leg", "Electro", "Fishman Karate", "Dragon Claw", "Superhuman", "Death Step", "Sharkman Karate", "Electric Claw", "Dragon Talon", "Godhuman" },
@@ -3294,3 +3311,11 @@ Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default
             end
         end
     end)
+    game.StarterGui:SetCore(
+    "SendNotification",
+    {
+        Title = "Duck-Hub-test",
+        Text = "Success!",
+        Duration = 5
+    }
+)
