@@ -1660,7 +1660,23 @@ LPH_JIT_MAX(function()
 		end
 	end)
 end)()
+
 local Section = Tabs.Main:AddSection("Main Setup Setting Farm")
+Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
+    Toggle:OnChanged(function(Value)
+        RemoveNotify = Value
+        saveSettings()
+    end)
+    
+    spawn(function()
+        while wait() do
+            if RemoveNotify then
+                game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = false
+            else
+                game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = true
+            end
+        end
+    end)
 Tabs.Main:AddButton({
     Title = "Siêu Pro Fix Lag | Booster",
     Description = "Giảm Đồ Họa Thấp",
@@ -3738,8 +3754,8 @@ Toggle:OnChanged(function(Value)
     end)
     
                   ----------Tab Spawn Boss Katakuri Và Mấy Đồ Linh Tinh-------
-local LinhTinh = Tabs.an:AddSection("Main Setting Config")
-local Toggle = Tabs.an:AddToggle("Turn V4", { Title = "Tự Động Bật V4", Default = false })
+local LinhTinh = Tabs.Race:AddSection("Main Setting Config")
+local Toggle = Tabs.Race:AddToggle("Turn V4", { Title = "Tự Động Bật V4", Default = false })
 Toggle:OnChanged(function(Value)
     RaceNguLon = Value
 end)
@@ -3776,7 +3792,7 @@ spawn(function()
       end
    end) 
 
-local Toggle = Tabs.an:AddToggle("Walk Water", { Title = "Walk Water", Default = true })
+local Toggle = Tabs.Race:AddToggle("Walk Water", { Title = "Walk Water", Default = true })
 Toggle:OnChanged(function(Value)
     _G.NuocLon = Value
 end)
@@ -3793,7 +3809,7 @@ spawn(function()
 			end
 		end)
                           
-local Toggle = Tabs.an:AddToggle("Walk Water", { Title = "Auto Rejoin", Description = "Rejoin When Kick", Default = false })
+local Toggle = Tabs.Race:AddToggle("Walk Water", { Title = "Auto Rejoin", Description = "Rejoin When Kick", Default = false })
 Toggle:OnChanged(function(Value)
     _G.Rejoin = Value
 end)                          
@@ -3811,7 +3827,7 @@ spawn(function()
     end
 end)                          
 
-local Toggle = Tabs.an:AddToggle("RemoveConMe", { Title = "Remove Damege", Description = "Xoá Damege", Default = false })
+local Toggle = Tabs.Main:AddToggle("RemoveConMe", { Title = "Remove Damege", Description = "Xoá Damege", Default = false })
 Toggle:OnChanged(function(UwUOnTop)
    removedame = UwUOnTop
 end)
@@ -3826,7 +3842,7 @@ spawn(function()
      end
  end)
 
-local Toggle = Tabs.an:AddToggle("RemoveConMe", { Title = "Xoá Thông Báo", Description = "Xoá Thông Báo Khi Những Gì Bạn Farm", Default = false })
+local Toggle = Tabs.Main:AddToggle("RemoveConMe", { Title = "Xoá Thông Báo", Description = "Xoá Thông Báo Khi Những Gì Bạn Farm", Default = false })
 Toggle:OnChanged(function(UwUOnTop)
    removenotify = UwUOnTop
 end)
@@ -3841,7 +3857,7 @@ spawn(function()
    end
 end)
 
-Tabs.an:AddButton({
+Tabs.Tele:AddButton({
     Title = "Hop Server Low Player",
     Description = "",
     Callback = function()
@@ -3849,7 +3865,7 @@ HopLowServer()
     end
 })
 -------Tab Race-----
-local DaoNaoCac = Tabs.meo:AddParagraph({
+local DaoNaoCac = Tabs.Home:AddParagraph({
     Title = "Trạng Thái Đảo Bí Ẩn",
     Content = ""
 })
@@ -3870,7 +3886,7 @@ spawn(function()
 end
 )
 
-local Toggle = Tabs.meo:AddToggle("Teleport", { Title = "Teleport Mirage Island", Default = false })
+local Toggle = Tabs.Tele:AddToggle("Teleport", { Title = "Teleport Mirage Island", Default = false })
 Toggle:OnChanged(function(Value)
     _G.DaoBiLon = Value
     StopTween(_G.DaoBiLon)
@@ -3887,7 +3903,7 @@ spawn(function()
                 end
             end)
         end)
-local Toggle = Tabs.meo:AddToggle("Teleport Gear", { Title = "Lock Moon", Default = false })
+local Toggle = Tabs.Race:AddToggle("Teleport Gear", { Title = "Lock Moon", Default = false })
 Toggle:OnChanged(function(Value)
     _G.TrangNhuCaiLonTao = Value
 end)
@@ -3906,7 +3922,7 @@ spawn(function()
 end)
 
 
-local Toggle = Tabs.meo:AddToggle("Teleport Gear", { Title = "Teleport Gear", Default = false })
+local Toggle = Tabs.Tele:AddToggle("Teleport Gear", { Title = "Teleport Gear", Default = false })
 Toggle:OnChanged(function(Value)
     _G.Luom_Gear = Value
     StopTween(_G.Luom_Gear)
@@ -3930,7 +3946,7 @@ spawn(function()
     end)
 end)
 
-local Toggle = Tabs.meo:AddToggle("Teleport Gear", { Title = "Teleport Advanced Fruit", Default = false })
+local Toggle = Tabs.Tele:AddToggle("Teleport Gear", { Title = "Teleport Advanced Fruit", Default = false })
 Toggle:OnChanged(function(Value)
     _G.RaDaoKhi = Value
     StopTween(_G.RaDaoKhi)
