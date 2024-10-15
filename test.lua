@@ -1660,9 +1660,9 @@ LPH_JIT_MAX(function()
 		end
 	end)
 end)()
-
+local RemoveNotify = false 
 local Section = Tabs.Main:AddSection("Main Setup Setting Farm")
-Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
+local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify})
     Toggle:OnChanged(function(Value)
         RemoveNotify = Value
         saveSettings()
