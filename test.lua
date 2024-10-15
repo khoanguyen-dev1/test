@@ -3594,10 +3594,10 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
     end
 })
     
-local Mastery = Tabs.tele:AddSection("Dịch Chuyển Đảo")
+local Mastery = Tabs.Tele:AddSection("Dịch Chuyển Đảo")
 
 if World1 then
-local Dropdown1 = Tabs.tele:AddDropdown("DropdownFarm", {
+local Dropdown1 = Tabs.Tele:AddDropdown("DropdownFarm", {
     Title = "Chọn Đảo | Sea 1",
     Values = {"WindMill", "Marine","Middle Town", "Jungle", "Pirates Village", "Desert", "Snow Island", "MarineFord", "Colosseum", "Sky Island 1", "Sky Island 2", "Sky Island 3", "Prison", "Magma Village", "Under Water Island","Fountain City", "Shank Room"},
     Multi = false,
@@ -3610,7 +3610,7 @@ end)
 end
 
 if World2 then
-local Dropdown2 = Tabs.tele:AddDropdown("DropdownFarm", {
+local Dropdown2 = Tabs.Tele:AddDropdown("DropdownFarm", {
     Title = "Chọn Đảo | Sea 2",
     Values = {"The Cafe", "Frist Spot", "Dark Area", "Flamingo Mansion", "Flamingo Room", "Green Zone", "Factory", "Colossuim", "Zombie Island", "Two Snow Mountain", "Punk Hazard", "Cursed Ship", "Ice Castle", "Forgotten Island", "Ussop Island"},
     Multi = false,
@@ -3623,7 +3623,7 @@ end)
 end
 
 if World3 then
-local Dropdown3 = Tabs.tele:AddDropdown("DropdownFarm3", {
+local Dropdown3 = Tabs.Tele:AddDropdown("DropdownFarm3", {
     Title = "Chọn Đảo | Sea 3",
     Values = {"Mansion","Port Town","Great Tree","Castle On The Sea","Hydra Island","Haunted Castle","Ice Cream Island","Peanut Island","Cake Island","Cocoa Island","Candy Island","Tiki Outpost"},
     Multi = false,
@@ -3635,7 +3635,7 @@ _G.SelectIsland = Value
 end)
 end
 
-local Toggle = Tabs.tele:AddToggle("Dịch Chuyển Đến Đảo", { Title = "Dịch Chuyển Đến Đảo", Default = false })
+local Toggle = Tabs.Tele:AddToggle("Dịch Chuyển Đến Đảo", { Title = "Dịch Chuyển Đến Đảo", Default = false })
 Toggle:OnChanged(function(Value)
     _G.BayDao = Value     
          if _G.BayDao == true then
@@ -3764,7 +3764,7 @@ task.spawn(
         end
     end
 )
-local Toggle = Tabs.an:AddToggle("Auto Spawn Boss Kata", { Title = "Auto Spawn Boss Cake Prince", Default = true })
+local Toggle = Tabs.Main:AddToggle("Auto Spawn Boss Kata", { Title = "Auto Spawn Boss Cake Prince", Default = true })
 Toggle:OnChanged(function(Value)
     _G.AutoSpawnCP = Value
 end)
