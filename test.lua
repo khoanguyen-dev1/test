@@ -1662,6 +1662,21 @@ LPH_JIT_MAX(function()
 end)()
 
 local Section = Tabs.Main:AddSection("Main Setup Setting Farm")
+Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
+    Toggle:OnChanged(function(Value)
+        RemoveNotify = Value
+        saveSettings()
+    end)
+    
+    spawn(function()
+        while wait() do
+            if RemoveNotify then
+                game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = false
+            else
+                game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = true
+            end
+        end
+    end)
 Tabs.Main:AddButton({
     Title = "Siêu Pro Fix Lag | Booster",
     Description = "Giảm Đồ Họa Thấp",
