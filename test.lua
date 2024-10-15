@@ -104,7 +104,7 @@ local Tabs = {
     Main = Window:AddTab({ Title = "Auto Farm", Icon = "" }),
     Home = Window:AddTab({ Title = "Status", Icon = "" }),
     item = Window:AddTab({ Title = "Auto Item", Icon = "" }),
-    tele = Window:AddTab({ Title = "Tele", Icon = "" }),
+    Tele = Window:AddTab({ Title = "Tele", Icon = "" }),
     Race = Window:AddTab({ Title = "Trial Tộc V4", Icon = "" }),
     Raid = Window:AddTab({ Title = "Raid Fruit", Icon = "" }),
     Melee = Window:AddTab({ Title = "Shop", Icon = "" })
@@ -1337,7 +1337,7 @@ PosY = 45
 AutoHaki()
 
 spawn(function()
-	function AnDepZaiHub()
+	function DuckHub()
 		game:GetService("VirtualUser"):CaptureController()
 		game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 672))
 	end
@@ -2210,7 +2210,7 @@ local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.C
     spawn(
             function()
             while wait() do
-                if FarmMode == "Farm Bone" and _G.AutoFarm and AnDepZai3 then
+                if FarmMode == "Farm Bone" and _G.AutoFarm and World3 then
                     pcall(  
                             function()                        
                     if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
@@ -2234,13 +2234,13 @@ local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.C
                         end
                     else
                     if BypassTP then
-                    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - AnDepZai.Position).Magnitude > 1500 then
-			        BTP(AnDepZai)
-				    elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - AnDepZai.Position).Magnitude < 1500 then
-				    topos(AnDepZai)
+                    if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - UwU.Position).Magnitude > 1500 then
+			        BTP(UwU)
+				    elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - UwU.Position).Magnitude < 1500 then
+				    topos(UwU)
 					end
 				else
-				    topos(AnDepZai)
+				    topos(UwU)
 				end
 				        UnEquipWeapon(_G.SelectWeapon)
                         BonesBring = false					   
@@ -2266,7 +2266,7 @@ local QuestTitle = game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.C
 
 spawn(function()
        while wait() do
-         if FarmMode == "Farm Katakuri" and _G.AutoFarm and AnDepZai3 then
+         if FarmMode == "Farm Katakuri" and _G.AutoFarm and World3 then
          pcall(function()                        
       if game:GetService("Workspace").Enemies:FindFirstChild("Cake Prince") then
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
@@ -2557,7 +2557,7 @@ spawn(function()
     end
 end)
 
-if AnDepZai3 then
+if World3 then
 
 ----Tween Nay No Se Check Distance Va Chon Diem De Tele Nhanh Nhat Nhe , Minh Thi Ko Ranh Nen Se Skid Cua May Hub Khac Va Gan Chuc Nang Minh Tu Lam
 local Hiz = Tabs.item:AddSection("Farm Nguyên Liệu")
@@ -2596,7 +2596,7 @@ local Cacao = {
 spawn(function()
     spawn(function()
         while wait(.1) do
-            if CacaoBring and _G.BringMonster and World33 then
+            if CacaoBring and _G.BringMonster and World3 then
                 pcall(function()
                     for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
                         if v.Name == "Cocoa Warrior" or v.Name == "Chocolate Bar Battler" or v.Name == "Sweet Thief" or v.Name == "Candy Rebel" then
@@ -3596,7 +3596,7 @@ game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelZou")
     
 local Mastery = Tabs.tele:AddSection("Dịch Chuyển Đảo")
 
-if AnDepZai1 then
+if World1 then
 local Dropdown1 = Tabs.tele:AddDropdown("DropdownFarm", {
     Title = "Chọn Đảo | Sea 1",
     Values = {"WindMill", "Marine","Middle Town", "Jungle", "Pirates Village", "Desert", "Snow Island", "MarineFord", "Colosseum", "Sky Island 1", "Sky Island 2", "Sky Island 3", "Prison", "Magma Village", "Under Water Island","Fountain City", "Shank Room"},
@@ -3609,7 +3609,7 @@ _G.SelectIsland = Value
 end)
 end
 
-if AnDepZai2 then
+if World2 then
 local Dropdown2 = Tabs.tele:AddDropdown("DropdownFarm", {
     Title = "Chọn Đảo | Sea 2",
     Values = {"The Cafe", "Frist Spot", "Dark Area", "Flamingo Mansion", "Flamingo Room", "Green Zone", "Factory", "Colossuim", "Zombie Island", "Two Snow Mountain", "Punk Hazard", "Cursed Ship", "Ice Castle", "Forgotten Island", "Ussop Island"},
@@ -3622,7 +3622,7 @@ _G.SelectIsland = Value
 end)
 end
 
-if AnDepZai3 then
+if World3 then
 local Dropdown3 = Tabs.tele:AddDropdown("DropdownFarm3", {
     Title = "Chọn Đảo | Sea 3",
     Values = {"Mansion","Port Town","Great Tree","Castle On The Sea","Hydra Island","Haunted Castle","Ice Cream Island","Peanut Island","Cake Island","Cocoa Island","Candy Island","Tiki Outpost"},
@@ -3813,8 +3813,8 @@ spawn(function()
 end)                          
 
 local Toggle = Tabs.an:AddToggle("RemoveConMe", { Title = "Remove Damege", Description = "Xoá Damege", Default = false })
-Toggle:OnChanged(function(AnDepZaiHubOnTop)
-   removedame = AnDepZaiHubOnTop
+Toggle:OnChanged(function(UwUOnTop)
+   removedame = UwUOnTop
 end)
 
 spawn(function()
@@ -3828,8 +3828,8 @@ spawn(function()
  end)
 
 local Toggle = Tabs.an:AddToggle("RemoveConMe", { Title = "Xoá Thông Báo", Description = "Xoá Thông Báo Khi Những Gì Bạn Farm", Default = false })
-Toggle:OnChanged(function(AnDepZaiHubOnTop)
-   removenotify = AnDepZaiHubOnTop
+Toggle:OnChanged(function(UwUOnTop)
+   removenotify = UwUOnTop
 end)
 
 spawn(function()
@@ -4031,7 +4031,7 @@ spawn(function()
 end)
 spawn(function()
     while wait() do 
-        if _G.Quest_Nhu_Cai_Lon and AnDepZai3 then
+        if _G.Quest_Nhu_Cai_Lon and World3 then
             pcall(function()
   if game:GetService("Workspace").Enemies:FindFirstChild("Reborn Skeleton") or game:GetService("Workspace").Enemies:FindFirstChild("Living Zombie") or game:GetService("Workspace").Enemies:FindFirstChild("Demonic Soul") or game:GetService("Workspace").Enemies:FindFirstChild("Posessed Mummy") then
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
@@ -4053,12 +4053,12 @@ spawn(function()
                     else
                     if BypassTP then
                     if (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - BonePos.Position).Magnitude > 1500 then
-			        BTP(AnDepZai)
+			        BTP(UwU)
 				    elseif (game.Players.LocalPlayer.Character.HumanoidRootPart.Position - BonePos.Position).Magnitude < 1500 then
-				    topos(AnDepZai)
+				    topos(UwU)
 					end
 				else
-				    topos(AnDepZai)
+				    topos(UwU)
 				end
 				        UnEquipWeapon(_G.SelectWeapon)
                         BonesBring = false
@@ -4317,7 +4317,7 @@ end)
 spawn(
     function()
     while task.wait() do
-        if _G.Kill_V4 and AnDepZai3 then
+        if _G.Kill_V4 and World3 then
             pcall(
                 function()
     if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == true then
@@ -4373,8 +4373,8 @@ Toggle:OnChanged(function(Lonma)
 end)
 
 local Toggle = Tabs.Race:AddToggle("Kill Trial", { Title = "Skill C", Default = false })
-Toggle:OnChanged(function(AnDepZai)
-    ConCacC = AnDepZai
+Toggle:OnChanged(function(UwU)
+    ConCacC = UwU
 end)
 
 --Deo Muon Lam Aim Nhung Bang Cach Than Ki Nao Do Fast Attack Deo Pha Noi Ken 🤣
@@ -4493,9 +4493,9 @@ spawn(function()
             if _G.Auto_StartRaid then
                 if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false then
                     if not game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip") then
-                        if AnDepZai2 then
+                        if World2 then
                             fireclickdetector(game:GetService("Workspace").Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
-                        elseif AnDepZai3 then
+                        elseif World3 then
                             fireclickdetector(game:GetService("Workspace").Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
                         end
                     end
@@ -4505,7 +4505,7 @@ spawn(function()
     end
 end)
  
-if AnDepZai2 then
+if World2 then
 Tabs.Raid:AddButton({
     Title = "Teleport To Raid",
     Description = "Bay Đến Chỗ Raid",
@@ -4515,7 +4515,7 @@ Tabs.Raid:AddButton({
 })       
 end    
 
-if AnDepZai3 then
+if World3 then
 Tabs.Raid:AddButton({
     Title = "Teleport To Raid",
     Description = "Bay Đến Chỗ Raid",
@@ -4556,7 +4556,7 @@ end)
 
 spawn(function()
         while wait() do
-            if _G.Raidlaw and AnDepZai2 then
+            if _G.Raidlaw and World2 then
                 pcall(function()
                     if game:GetService("Workspace").Enemies:FindFirstChild("Order") then
                         for i,v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
