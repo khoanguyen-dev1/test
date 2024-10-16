@@ -1661,7 +1661,7 @@ LPH_JIT_MAX(function()
 	end)
 end)()
 
-local Section = Tabs.Melee:AddSection("Main Setup Setting Farm")
+local Section = Tabs.Main:AddSection("Main Setup Setting Farm")
 
 -- Assign the toggle to a variable
 Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
