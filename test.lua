@@ -1664,22 +1664,21 @@ end)()
 local Section = Tabs.Melee:AddSection("Main Setup Setting Farm")
 
 -- Assign the toggle to a variable
-local Toggle = Tabs.Melee:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
-
-Toggle:OnChanged(function(Value)
-    RemoveNotify = Value
-    saveSettings()
-end)
-
-spawn(function()
-    while wait() do
-        if RemoveNotify then
-            game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = false
-        else
-            game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = true
+Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
+    Toggle:OnChanged(function(Value)
+        RemoveNotify = Value
+        saveSettings()
+    end)
+    
+    spawn(function()
+        while wait() do
+            if RemoveNotify then
+                game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = false
+            else
+                game.Players.LocalPlayer.PlayerGui.Notifications.Enabled = true
+            end
         end
-    end
-end)
+    end)
 Tabs.Main:AddButton({
     Title = "Siêu Pro Fix Lag | Booster",
     Description = "Giảm Đồ Họa Thấp",
