@@ -1663,11 +1663,9 @@ end)()
 
 local Section = Tabs.Main:AddSection("Main Setup Setting Farm")
 
--- Assign the toggle to a variable
-Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
-    Toggle:OnChanged(function(Value)
+local REMOVE = Tabs.Main:AddToggle("MyToggle", {Title = "Remove Notification", Default = RemoveNotify })
+        REMOVE:OnChanged(function(Value)
         RemoveNotify = Value
-        saveSettings()
     end)
     
     spawn(function()
