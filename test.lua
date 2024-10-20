@@ -4824,6 +4824,34 @@ spawn(function()
 		end)
 	end
 end)
+    local foldername = "Duck Hub"
+    local filename = foldername.."/Setting.json"
+    function saveSettings()
+        local HttpService = game:GetService("HttpService")
+        local json = HttpService:JSONEncode(_G)
+        if true then
+            if isfolder(foldername) then
+                if isfile(filename) then
+                    writefile(filename, json)
+                else
+                    writefile(filename, json)
+                end
+            else
+                makefolder(foldername)
+            end
+        end
+    end
+    ------------------------------------------------------------------------------------------------------------------------------------
+    ------------------------------------------------------------------------------------------------------------------------------------
+    
+    function loadSettings()
+        local HttpService = game:GetService("HttpService")
+        if isfolder(foldername) then
+            if isfile(filename) then
+                _G = HttpService:JSONDecode(readfile(filename))
+            end
+        end
+    end
 Tabs.St:AddSection("Auto Up Status Player")
 ToggleMelee = Tabs.St:AddToggle("ToggleMelee", {Title = "Auto Melee",Description = "Nâng mele", Default = _G.Auto_Stats_Melee })
 ToggleMelee:OnChanged(function(Value)
