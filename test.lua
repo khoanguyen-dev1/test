@@ -4398,21 +4398,16 @@ end)
 
     if Value then
         _G.Kill_Aura = true -- Tự động kích hoạt Kill Aura khi bắt đầu raid
-        spawn(function()
-            if getNextIsland() then
-                wait(0) -- Chờ 10 giây trước khi bắt đầu hoạt động
-            end
-            
-            -- Logic tự động bắt đầu raid
+      -- Logic tự động bắt đầu raid
             _G.Auto_StartRaid = true -- Bắt đầu tự động raid
 
             while _G.Auto_Dungeon do
-                local nextIsland = getNextIsland()
+                local nextIsland 
                 if nextIsland then
                     spawn(topos(nextIsland.CFrame * CFrame.new(0, 60, 0)), 1)
 
                     -- Dừng lại cho đến khi đến đảo mới
-                    while _G.Auto_Dungeon and getNextIsland() == nextIsland do
+                    while _G.Auto_Dungeon and getNextIsland == nextIsland do
                         wait() -- Chờ cho đến khi đảo tiếp theo được xác định
                     end
                 else
