@@ -3852,26 +3852,7 @@ HopLowServer()
     end
 })
 -------Tab Race-----
-local DaoNaoCac = Tabs.Home:AddParagraph({
-    Title = "Trạng Thái Đảo Bí Ẩn",
-    Content = ""
-})
 
-local function updateMirageStatus()
-    local mirageIsland = game.Workspace._WorldOrigin.Locations:FindFirstChild('Đảo Kì Bí')
-    if mirageIsland then
-        DaoNaoCac:SetDesc('Trạng Thái 🟢: Đang Có Đảo')
-    else
-        DaoNaoCac:SetDesc('Trạng Thái 🔴: Không Có Đảo')
-    end
-end
-
-spawn(function()
-    while wait(1) do
-        pcall(updateMirageStatus)
-    end
-end
-)
 
 local Toggle = Tabs.Tele:AddToggle("Teleport", { Title = "Teleport Mirage Island", Default = false })
 Toggle:OnChanged(function(Value)
@@ -4419,7 +4400,7 @@ end)
         _G.Kill_Aura = true -- Tự động kích hoạt Kill Aura khi bắt đầu raid
         spawn(function()
             if getNextIsland() then
-                wait(1) -- Chờ 10 giây trước khi bắt đầu hoạt động
+                wait(0) -- Chờ 10 giây trước khi bắt đầu hoạt động
             end
             
             -- Logic tự động bắt đầu raid
