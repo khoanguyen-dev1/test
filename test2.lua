@@ -4402,7 +4402,12 @@ ToggleRaid:OnChanged(function(Value)
         while _G.Auto_Dungeon do
             local nextIsland = getNextIsland() -- Lấy hòn đảo tiếp theo
             if nextIsland then
-                spawn(topos(nextIsland.CFrame * CFrame.new(0, 60, 0)), 1)
+                -- Tự động bay lên trời khi ở đảo 1
+                if nextIsland.Name == "Island 1" then
+                    spawn(topos(nextIsland.CFrame * CFrame.new(0, 60, 0)), 1) -- Bay lên trời
+                else
+                    spawn(topos(nextIsland.CFrame * CFrame.new(0, 60, 0)), 1) -- Bay lên trời cho các đảo khác
+                end
 
                 -- Dừng lại cho đến khi đến đảo mới
                 while _G.Auto_Dungeon and getNextIsland() == nextIsland do
@@ -4488,6 +4493,7 @@ spawn(function()
         end
     end)
 end)
+
 
                      
                      -- Logic tự động bắt đầu raid
