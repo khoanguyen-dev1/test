@@ -3832,27 +3832,19 @@
     end
     end)
 
-    Tabs.Tele:AddButton({
-        Title = "Hop Server Low Player",
-        Description = "",
-        Callback = function()
-    HopLowServer()
-        end
-    })
-    -------Tab Race-----
-    local DaoNaoCac = Tabs.Home:AddParagraph({
-        Title = "Trạng Thái Đảo Bí Ẩn",
-        Content = ""
-    })
-
-    local function updateMirageStatus()
-        local mirageIsland = game.Workspace._WorldOrigin.Locations:FindFirstChild('Đảo Kì Bí')
-        if mirageIsland then
-            DaoNaoCac:SetDesc('Trạng Thái 🟢: Đang Có Đảo')
+Tabs.Tele:AddButton({
+    Title = "Hop Server Low Player",
+    Description = "Nhấn để chuyển đến server có số lượng người chơi thấp.",
+    Callback = function()
+        if HopLowServer then
+            HopLowServer() -- Gọi hàm nếu nó đã được định nghĩa
         else
-            DaoNaoCac:SetDesc('Trạng Thái 🔴: Không Có Đảo')
+            warn("Hàm HopLowServer chưa được định nghĩa.")
         end
     end
+})
+---Tab Race-----
+
 
     spawn(function()
         while wait(1) do
