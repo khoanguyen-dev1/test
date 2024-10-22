@@ -105,9 +105,7 @@ local Tabs = {
     Home = Window:AddTab({ Title = "Status server", Icon = "" }),
     St = Window:AddTab({ Title = "Status player", Icon = "" }),
     item = Window:AddTab({ Title = "Auto Item", Icon = "" }),
-    cailon = Window:AddTab({ Title = "Kitsune", Icon = "" }),
     Tele = Window:AddTab({ Title = "Tele", Icon = "" }),
-    Se = Window:AddTab({ Title = "Sea Event", Icon = "" }),
     Race = Window:AddTab({ Title = "Trial Tộc V4", Icon = "" }),
     Raid = Window:AddTab({ Title = "Raid Fruit", Icon = "" }),
     Melee = Window:AddTab({ Title = "Shop", Icon = "" })
