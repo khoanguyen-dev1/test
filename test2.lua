@@ -1405,7 +1405,7 @@ function()
 end
 )
 local FUllmoon = Tabs.Home:AddParagraph({
-        Title = "Status: Moon",
+        Title = "Status: Server Full Moon",
         Content = ""
     })
     spawn(
@@ -1475,27 +1475,6 @@ spawn(function()
     end
 end
 )
-StatusKitsune = Tabs.Home:AddParagraph({
-    Title = "Kistune Island",
-    Content = ""
-})
-function UpdateKitsune()
-    if game.Workspace._WorldOrigin.Locations:FindFirstChild('Kitsune Island') then
-        StatusKitsune:SetDesc("Kitsune Island : 🟢")
-    else
-        StatusKitsune:SetDesc("Kitsune Island : 🔴")
-    end
-end
-spawn(function()
-    pcall(function()
-        while wait() do
-            UpdateKitsune()
-        end
-    end)
-end)
-
-
-
 local Mastery = Tabs.Home:AddSection("Join Server")
 local Input = Tabs.Home:AddInput("Input", {
         Title = "Job Id",
@@ -4406,20 +4385,23 @@ spawn(function()
         end
     end
 end)
-local Toggle = Tabs.Raid:AddToggle("Kill Aura", { Title = "Start Raid", Default = false })
-Toggle:OnChanged(function(Value)
+
+local ToggleAutoStart = Tabs.Raid:AddToggle("ToggleAutoStart", { Title = "Start raid", Default = false })
+ToggleAutoStart:OnChanged(function(Value)
     _G.Auto_StartRaid = Value
 end)
 
 spawn(function()
-    while wait(.1) do
+    while wait(0.1) do
         pcall(function()
             if _G.Auto_StartRaid then
                 if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == false then
-                    if not game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") and game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") or game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip") then
-                        if AnDepZai2 then
+                    if not game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island 1") and 
+                       (game:GetService("Players").LocalPlayer.Backpack:FindFirstChild("Special Microchip") or 
+                        game:GetService("Players").LocalPlayer.Character:FindFirstChild("Special Microchip")) then
+                        if World2 then
                             fireclickdetector(game:GetService("Workspace").Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)
-                        elseif AnDepZai3 then
+                        elseif World3 then
                             fireclickdetector(game:GetService("Workspace").Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector)
                         end
                     end
@@ -4428,65 +4410,66 @@ spawn(function()
         end)
     end
 end)
-local ToggleNextIsland = Tabs.Raid:AddToggle("ToggleNextIsland", { Title = "Đảo Tiếp Theo", Default = false })
-ToggleNextIsland:OnChanged(function(Value)
-    _G.Auto_Dungeon = Value
-    StopTween(_G.Auto_Dungeon)
-end)
 
-function IsIslandRaid(cu)
-    if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island " .. cu) then
-        local min = 4500
-        for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-            if v.Name == "Island " .. cu and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < min then
-                min = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-            end
-        end
-        for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-            if v.Name == "Island " .. cu and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= min then
-                return v
-            end
-        end
-    end
-end
-
-function getNextIsland()
-    local TableIslandsRaid = {5, 4, 3, 2, 1}
-    for r, v in pairs(TableIslandsRaid) do
-        if IsIslandRaid(v) and (IsIslandRaid(v).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4500 then
-            return IsIslandRaid(v)
-        end
-    end
-end
-
-    
-local Toggle = Tabs.Raid:AddToggle("Kill Aura", { Title = "Kill Aura", Default = false })
-Toggle:OnChanged(function(Value)
-    _G.Kill_Aura = Value
-end)
-
-spawn(function()
-    pcall(function() 
-        while wait() do
-            if _G.Kill_Aura then
-                if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible == true then
-                    for i,v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
-                        if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
-                            pcall(function()
-                                repeat wait()
-                                    sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
-                                    v.Humanoid.Health = 0
-                                    v.HumanoidRootPart.CanCollide = false
-                                until not _G.Kill_Aura or not v.Parent or v.Humanoid.Health <= 0
-                            end)
-                        end
-                    end
-                end
-            end
-        end
-    end)
-end)
-
+                     local ToggleNextIsland = Tabs.Raid:AddToggle("ToggleNextIsland", { Title = "Đảo Tiếp Theo", Default = false })
+                     ToggleNextIsland:OnChanged(function(Value)
+                         _G.ToggleNextIsland = Value
+                         StopTween(_G.ToggleNextIsland)
+                     end)
+                     
+                     function IsIslandRaid(cu)
+                         if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island " .. cu) then
+                             local min = 4500
+                             for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+                                 if v.Name == "Island " .. cu and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < min then
+                                     min = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
+                                 end
+                             end
+                             for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
+                                 if v.Name == "Island " .. cu and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= min then
+                                     return v
+                                 end
+                             end
+                         end
+                     end
+                     
+                     function getNextIsland()
+                         local TableIslandsRaid = {5, 4, 3, 2, 1}
+                         for r, v in pairs(TableIslandsRaid) do
+                             if IsIslandRaid(v) and (IsIslandRaid(v).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4500 then
+                                 return IsIslandRaid(v)
+                             end
+                         end
+                     end
+                     
+                     local ToggleKillAura = Tabs.Raid:AddToggle("Kill Aura", { Title = "Kill Aura", Default = false })
+                     ToggleKillAura:OnChanged(function(Value)
+                         _G.Kill_Aura = Value
+                     end)
+                     
+                     spawn(function()
+                         pcall(function() 
+                             while wait() do
+                                 if _G.Kill_Aura then
+                                     if game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Timer.Visible then
+                                         for i, v in pairs(game:GetService("Workspace").Enemies:GetDescendants()) do
+                                             if v:FindFirstChild("Humanoid") and v:FindFirstChild("HumanoidRootPart") and v.Humanoid.Health > 0 then
+                                                 pcall(function()
+                                                     repeat wait()
+                                                         sethiddenproperty(game:GetService("Players").LocalPlayer, "SimulationRadius", math.huge)
+                                                         v.Humanoid.Health = 0
+                                                         v.HumanoidRootPart.CanCollide = false
+                                                     until not _G.Kill_Aura or not v.Parent or v.Humanoid.Health <= 0
+                                                 end)
+                                             end
+                                         end
+                                     end
+                                 end
+                             end
+                         end)
+                     end)
+                     
+                    
 if World2 then
 Tabs.Raid:AddButton({
     Title = "Teleport To Raid",
@@ -4895,7 +4878,6 @@ spawn(function()
 		end
 	end
 end)
-end
 repeat
     wait()
 until game:IsLoaded()
