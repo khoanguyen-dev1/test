@@ -806,63 +806,20 @@ if game.PlaceId == 2753915549 then
         end
     end
 
-function HopLowServer(bO)
-		pcall(function()
-			if not bO then
-				bO = 5
-			end
-			ticklon = tick()
-			repeat
-				task.wait()
-			until tick() - ticklon >= 1
-			local function Hop()
-				for r = 1, math.huge do
-					if ChooseRegion == nil or ChooseRegion == "" then
-						ChooseRegion = "Singapore"
-					else
-						game:GetService("Players").LocalPlayer.PlayerGui.ServerBrowser.Frame.Filters.SearchRegion.TextBox.Text = ChooseRegion
-					end
-					local bP = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(r)
-					for k, v in pairs(bP) do
-						if k ~= game.JobId and v["Count"] < bO then
-							game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
-						end
-					end
-				end
-				return false
-			end
-			if not getgenv().Loaded then
-				local function bQ(v)
-					if v.Name == "ErrorPrompt" then
-						if v.Visible then
-							if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
-								HopLowServer()
-								v.Visible = false
-							end
-						end
-						v:GetPropertyChangedSignal("Visible"):Connect(
-							function()
-								if v.Visible then
-									if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
-										HopLowServer()
-										v.Visible = false
-									end
-								end
-							end
-						)
-					end
-				end
-				for k, v in pairs(game.CoreGui.RobloxPromptGui.promptOverlay:GetChildren()) do
-					bQ(v)
-				end
-				game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(bQ)
-				getgenv().Loaded = true
-			end
-			while task.wait(0.1) do
-				Hop()
-			end
-		end)
-	end
+ function HopLowServer()
+    local servers = HttpService:GetAsync("https://games.roblox.com/v1/games/2753915549/servers/Public?sortOrder=Asc&limit=100")
+    local serverList = HttpService:JSONDecode(servers)
+
+    for _, server in pairs(serverList.data) do
+        if server.playing < 5 and server.region == "Singapore" then -- Adjust the player count threshold as needed
+            Players.LocalPlayer:Kick("Hopping to a low player server in Singapore...")
+            wait(1)
+            game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, server.id)
+            break
+        end
+    end
+end
+
 function TPP(CFgo)
 	if game.Players.LocalPlayer.Character:WaitForChild("Humanoid").Health <= 0 or not game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") then tween:Cancel() repeat wait() until game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid") and game:GetService("Players").LocalPlayer.Character:WaitForChild("Humanoid").Health > 0 wait(7) return end
 	local tween_s = game:service"TweenService"
