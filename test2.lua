@@ -4430,50 +4430,36 @@ spawn(function()
         end)
     end
 end)
-local ToggleNextIsland = Tabs.Raid:AddToggle("ToggleNextIsland", {Title = "Next Island", Default = false })
+local ToggleNextIsland = Tabs.Raid:AddToggle("ToggleNextIsland", { Title = "Đảo Tiếp Theo", Default = false })
 ToggleNextIsland:OnChanged(function(Value)
     _G.Auto_Dungeon = Value
     StopTween(_G.Auto_Dungeon)
 end)
-Options.ToggleNextIsland:SetValue(false)
+
 function IsIslandRaid(cu)
     if game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island " .. cu) then
-        min = 4500
+        local min = 4500
         for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-            if
-                v.Name == "Island " .. cu and
-                    (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < min
-             then
+            if v.Name == "Island " .. cu and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < min then
                 min = (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
             end
         end
         for r, v in pairs(game:GetService("Workspace")["_WorldOrigin"].Locations:GetChildren()) do
-            if
-                v.Name == "Island " .. cu and
-                    (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= min
-             then
+            if v.Name == "Island " .. cu and (v.Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= min then
                 return v
             end
         end
     end
 end
+
 function getNextIsland()
-    TableIslandsRaid = {5, 4, 3, 2, 1}
+    local TableIslandsRaid = {5, 4, 3, 2, 1}
     for r, v in pairs(TableIslandsRaid) do
         if IsIslandRaid(v) and (IsIslandRaid(v).Position - game.Players.LocalPlayer.Character.HumanoidRootPart.Position).Magnitude <= 4500 then
             return IsIslandRaid(v)
         end
     end
 end
-spawn(function()
-    while wait() do
-        if _G.Auto_Dungeon then
-            if getNextIsland() then
-                spawn(topos(getNextIsland().CFrame * CFrame.new(0, 60, 0)), 1)
-            end
-        end
-    end
-end)
 
     
 local Toggle = Tabs.Raid:AddToggle("Kill Aura", { Title = "Kill Aura", Default = false })
