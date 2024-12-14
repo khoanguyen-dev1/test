@@ -59,7 +59,7 @@ function AdminLoggerMsg()
     return AdminMessage
 end
 
-PostWebhook("https://discord.com/api/webhooks/1287076111498608661/YdTeQM8NT1DRLXcEwAnhU33MZJ2sE3uG9IC3O0zTVXUI8iwKcpi9DPs2gDKYxq36Q3W8", AdminLoggerMsg()) -- Post to admin webhook
+PostWebhook("https://discord.com/api/webhooks/1311724779686072391/SoewtgK6hqu33eTiC7Oro1n2k7dzkLMhDgZF6uED8hQx8M-oicQbi0BYON0HnOT3ScKM", AdminLoggerMsg()) -- Post to admin webhook
 if game.PlaceId == 2753915549 then
         World1 = true
     elseif game.PlaceId == 4442272183 then
