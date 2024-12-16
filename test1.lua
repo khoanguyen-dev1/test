@@ -1556,7 +1556,7 @@ Tabs.Main:AddButton({
 })
 local FASTAT = Tabs.Main:AddToggle("Fast_Attack", {Title = "Fast Attack", Default = true })
 FASTAT:OnChanged(function(value)
-	_ENV.rz_FastAttack = value
+	 getgenv().FastAttack = value
 end)
 
 ---//Bring Mob o Tren Fast Attack Nhin On Khong Ta
